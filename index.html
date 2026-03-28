@@ -1,0 +1,58 @@
+CLIENT (Web / Mobile UI)
+        ↓
+API GATEWAY (Auth + Rate limit)
+        ↓
+REALTIME SERVER (Socket Cluster)
+        ↓
+GAME ENGINE (Tài Xỉu / Slot / Crash)
+        ↓
+DATABASE LAYER
+        ↓
+MongoDB + Redis Cache
+modules/
+ ├── taixiu.js
+ ├── slot.js
+ ├── crash.js
+export function taiXiu() {
+  const d = () => Math.floor(Math.random() * 6) + 1;
+
+  const d1 = d(), d2 = d(), d3 = d();
+  const total = d1 + d2 + d3;
+
+  return {
+    d1, d2, d3,
+    total,
+    result: total >= 11 ? "tai" : "xiu"
+  };
+}
+const symbols = ["🍒","🍋","💎","7️⃣","⭐"];
+
+export function slot() {
+  const r = () => symbols[Math.floor(Math.random()*symbols.length)];
+
+  return [r(), r(), r()];
+}
+export function crash() {
+  let multiplier = 1;
+  const crashPoint = Math.random() * 5 + 1;
+
+  return {
+    crashPoint,
+    multiplier
+  };
+}
+{
+  userId,
+  balance,
+  lockedBalance,
+  totalWin,
+  totalLose
+}
+io.on("connection", (socket) => {
+
+  socket.on("joinGame", (room) => {
+    socket.join(room);
+  });
+
+});
+redis.zrevrange("leaderboard", 0, 10);
